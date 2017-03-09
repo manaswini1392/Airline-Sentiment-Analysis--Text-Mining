@@ -1,0 +1,31 @@
+
+install.packages(c("twitteR","ROAuth","plyr","stringr","ggplot2"),dependencies=T)
+library(twitteR)
+library(plyr)
+library(stringr)
+library(ggplot2)
+download.file(url="http://curl.haxx.se/ca/cacert.pem",destfile="cacert.pem")
+
+requestURL = "https://api.twitter.com/oauth/request_token"
+accessURL = "https://api.twitter.com/oauth/access_token"
+authURL = "https://api.twitter.com/oauth/authorize"
+consumerKey = "XXXXXX"
+consumerSecret = "XXXXX"
+access_token = "XXXXX"
+access_token_secret = "XXX"
+Cred = OAuthFactory$new(consumerKey = consumerKey,consumerSecret = consumerSecret,requestURL = requestURL, accessURL = accessURL,authURL = authURL)
+Cred$handshake(cainfo = system.file("CurlSSL","cacert.pem",package = "RCurl"))
+3376114
+save(Cred,file="twitter authentication.Rdata")
+load("twitter authentication.Rdata")
+
+setup_twitter_oauth(consumerKey,consumerSecret,requestURL,accessURL, credentials_file=NULL)
+setup_twitter_oauth(consumerKey,consumerSecret, access_token=NULL, access_secret=NULL)
+
+install.packages(c("devtools", "rjson", "bit64", "httr"))
+setup_twitter_oauth(consumerKey,consumerSecret,access_token,access_token_secret)
+
+ airline.list = searchTwitter('#emirates',n=1000)
+ scoredata = searchTwitter('#united',n=1000)
+airline.df = twListToDF(airline.list)
+write.csv(airline.df,file='xxx/airliner.csv,row.names=F)
